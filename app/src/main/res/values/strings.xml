@@ -1,5 +1,7 @@
 <resources>
    <string name="app_name">TeamworkTest</string>
+   <string name="detail_title">Project detail</string>
+   <string name="list_title">Projects list</string>
    <string name="company">Company: %1$s</string>
    <string name="start_date">The project started on %1$s</string>
    <string name="status">Status: %1$s</string>

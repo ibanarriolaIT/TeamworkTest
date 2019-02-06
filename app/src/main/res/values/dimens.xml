@@ -4,7 +4,7 @@
    <dimen name="screen_border_margin">5dp</dimen>
    <dimen name="card_border_margin">5dp</dimen>
    <dimen name="list_photo_size">100dp</dimen>
-   <dimen name="detail_photo_size">150dp</dimen>
    <dimen name="distance_between_text">8dp</dimen>
    <dimen name="scroll_bottom_padding">20dp</dimen>
+   <dimen name="margin_detail_info">5dp</dimen>
 </resources>

@@ -3,7 +3,11 @@ package com.altran.ibanarriola.teamworktest.repository.model
 import android.os.Parcel
 import android.os.Parcelable
 import java.text.SimpleDateFormat
-import java.util.*
+import java.time.LocalDate
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+
+
 
 object ProjectModel {
     data class MapProject(val name: String?, val description: String?, val logo: String?, val company: String?, val startDate: String?, val status: String?): Parcelable {
@@ -40,11 +44,11 @@ object ProjectModel {
     }
 
     data class ProjectList(val projects: List<Project>)
-    data class Project(val name: String?, val description: String?, val logo: String?, val company: Company?, val startDate: Long, val status: String?) {
+    data class Project(val name: String?, val description: String?, val logo: String?, val company: Company?, val startDate: String?, val status: String?) {
         fun convertToMapProject(): MapProject {
-            val sdf = SimpleDateFormat("MM/dd/yyyy")
-            val projectDate = Date(startDate)
-            return MapProject(name, description, logo, company?.name, sdf.format(projectDate), status)
+            val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
+            val parseDate = LocalDate.parse(startDate, formatter)
+            return MapProject(name, description, logo, company?.name, parseDate.toString(), status)
         }
     }
     data class Company(val name: String?)

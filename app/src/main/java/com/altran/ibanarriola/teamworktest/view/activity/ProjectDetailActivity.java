@@ -1,60 +1,48 @@
 package com.altran.ibanarriola.teamworktest.view.activity;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.MenuItem;
 
 import com.altran.ibanarriola.teamworktest.R;
+import com.altran.ibanarriola.teamworktest.databinding.ProjectDetailBinding;
 import com.altran.ibanarriola.teamworktest.repository.model.ProjectModel;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class ProjectDetailActivity extends AppCompatActivity {
-
-    @BindView(R.id.project_logo)
-    ImageView logo;
-    @BindView(R.id.project_name)
-    TextView name;
-    @BindView(R.id.project_description)
-    TextView description;
-    @BindView(R.id.project_company)
-    TextView company;
-    @BindView(R.id.project_start_date)
-    TextView startDate;
-    @BindView(R.id.project_status)
-    TextView status;
-
-    Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
         setContentView(R.layout.project_detail);
-        unbinder = ButterKnife.bind(this);
-        setGnomeValues();
+        ProjectDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.project_detail);
+        Intent intent = getIntent();
+        ProjectModel.MapProject project = intent.getParcelableExtra("project");
+        binding.setProject(project);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.detail_title);
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.animation_back_enter, R.anim.animation_back_leave);
     }
 
-    private void setGnomeValues() {
-        Intent intent = getIntent();
-        ProjectModel.MapProject project = intent.getParcelableExtra("project");
-        name.setText(project.getName());
-        description.setText(project.getDescription());
-        company.setText(getString(R.string.company, project.getCompany()));
-        startDate.setText(getString(R.string.start_date, project.getStartDate()));
-        status.setText(getString(R.string.status_detail, project.getStatus()));
-        Glide.with(this).load(project.getLogo()).apply(RequestOptions.fitCenterTransform())
-                .into(logo);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 }

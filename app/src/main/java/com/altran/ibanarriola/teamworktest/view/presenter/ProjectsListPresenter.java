@@ -18,6 +18,7 @@ public class ProjectsListPresenter extends BasePresenter{
     }
 
     public void getProjects(){
+        ((View) getView()).onLoading();
         getProjectList.execute()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
@@ -30,6 +31,7 @@ public class ProjectsListPresenter extends BasePresenter{
     }
 
     public interface View {
+        void onLoading();
         void onProjectsDataReceived(List<ProjectModel.MapProject> projects);
         void onErrorReceivingProjects();
     }

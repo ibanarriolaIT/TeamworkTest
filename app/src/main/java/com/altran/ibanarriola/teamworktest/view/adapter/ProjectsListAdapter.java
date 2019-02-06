@@ -1,55 +1,42 @@
 package com.altran.ibanarriola.teamworktest.view.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.altran.ibanarriola.teamworktest.R;
+import com.altran.ibanarriola.teamworktest.databinding.ProjectsListElementBinding;
 import com.altran.ibanarriola.teamworktest.repository.model.ProjectModel;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class ProjectsListAdapter extends RecyclerView.Adapter<ProjectsListAdapter.ViewHolder> {
+public class ProjectsListAdapter extends RecyclerView.Adapter<ProjectsListAdapter.ProjectViewHolder> {
 
     private List<ProjectModel.MapProject> projects;
-    private Context context;
+    private LayoutInflater layoutInflater;
 
     private OnItemClickListener listener;
 
-    public ProjectsListAdapter(Context context, List<ProjectModel.MapProject> projects) {
-        this.context = context;
+    public ProjectsListAdapter(List<ProjectModel.MapProject> projects) {
         this.projects = projects;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.projects_list_element, parent, false);
-        return new ViewHolder(view);
+    public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (layoutInflater == null) {
+            layoutInflater = LayoutInflater.from(parent.getContext());
+        }
+        ProjectsListElementBinding binding = DataBindingUtil.inflate(
+                layoutInflater, R.layout.projects_list_element, parent, false);
+        return new ProjectViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        ProjectModel.MapProject project = projects.get(position);
-
-        holder.name.setText(project.getName());
-        holder.company.setText(context.getString(R.string.company, project.getCompany()));
-        holder.status.setText(context.getString(R.string.status, project.getStatus()));
-        Glide.with(context)
-                .load(project.getLogo())
-                .apply(RequestOptions.circleCropTransform())
-                .into(holder.photo);
-        holder.itemCard.setOnClickListener(v -> listener.onMessageItemClick(project));
+    public void onBindViewHolder(ProjectViewHolder holder, int position) {
+        holder.binding.setProject(projects.get(position));
+        holder.binding.ItemCard.setOnClickListener(v -> listener.onMessageItemClick(projects.get(position)));
     }
 
     @Override
@@ -61,22 +48,13 @@ public class ProjectsListAdapter extends RecyclerView.Adapter<ProjectsListAdapte
         this.listener = listener;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ProjectViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.project_logo)
-        protected ImageView photo;
-        @BindView(R.id.project_name)
-        protected TextView name;
-        @BindView(R.id.project_company)
-        protected TextView company;
-        @BindView(R.id.project_status)
-        protected TextView status;
-        @BindView(R.id.Item_Card)
-        protected CardView itemCard;
+        private final ProjectsListElementBinding binding;
 
-        public ViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        public ProjectViewHolder(ProjectsListElementBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 
