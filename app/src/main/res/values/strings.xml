@@ -1,0 +1,9 @@
+<resources>
+   <string name="app_name">TeamworkTest</string>
+   <string name="company">Company: %1$s</string>
+   <string name="start_date">The project started on %1$s</string>
+   <string name="status">Status: %1$s</string>
+   <string name="status_detail">Project currently %1$s</string>
+   <string name="logo_description">Logo of the project</string>
+   <string name="error_getting_projects">Error al buscar los projectos</string>
+</resources>

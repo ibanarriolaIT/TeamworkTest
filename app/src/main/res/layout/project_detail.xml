@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent">
+
+   <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingBottom="@dimen/scroll_bottom_padding"
+      android:layout_margin="@dimen/screen_border_margin">
+
+      <ImageView
+         android:id="@+id/project_logo"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_centerHorizontal="true" />
+
+      <TextView
+         android:id="@+id/project_name"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/project_logo"
+         android:layout_centerHorizontal="true"
+         android:textSize="@dimen/name_title"
+         android:textStyle="bold" />
+
+      <TextView
+         android:id="@+id/project_description"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/project_name" />
+
+      <TextView
+         android:id="@+id/project_company"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/project_name"
+         android:layout_marginBottom="@dimen/distance_between_text"
+         android:layout_marginStart="@dimen/distance_between_text"
+         android:layout_toEndOf="@+id/project_description" />
+
+      <TextView
+         android:id="@+id/project_start_date"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/project_company"/>
+
+      <TextView
+         android:id="@+id/project_status"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/project_description"
+         android:layout_marginBottom="@dimen/distance_between_text"
+         android:layout_marginStart="@dimen/distance_between_text"
+         android:layout_toEndOf="@+id/project_start_date" />
+
+   </RelativeLayout>
+</ScrollView>
