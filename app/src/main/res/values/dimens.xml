@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <dimen name="name_title">24sp</dimen>
+   <dimen name="text_big">24sp</dimen>
+   <dimen name="text_medium">18sp</dimen>
+   <dimen name="text_small">14sp</dimen>
    <dimen name="screen_border_margin">5dp</dimen>
    <dimen name="card_border_margin">5dp</dimen>
    <dimen name="list_photo_size">100dp</dimen>
    <dimen name="distance_between_text">8dp</dimen>
    <dimen name="scroll_bottom_padding">20dp</dimen>
-   <dimen name="margin_detail_info">5dp</dimen>
+   <dimen name="margin_detail_info">8dp</dimen>
 </resources>
