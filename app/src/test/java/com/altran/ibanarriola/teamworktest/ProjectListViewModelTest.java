@@ -1,7 +1,9 @@
 package com.altran.ibanarriola.teamworktest;
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import android.arch.lifecycle.LiveData;
 
+import com.altran.ibanarriola.teamworktest.common.DataWrapper;
 import com.altran.ibanarriola.teamworktest.repository.model.ProjectModel;
 import com.altran.ibanarriola.teamworktest.usecase.GetProjectList;
 import com.altran.ibanarriola.teamworktest.view.mvvm.ProjectsListViewModel;
@@ -19,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import io.reactivex.Scheduler;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.annotations.NonNull;
@@ -33,19 +34,18 @@ import static org.mockito.Mockito.when;
 
 public class ProjectListViewModelTest {
 
-    GetProjectList getProjectList = Mockito.mock(GetProjectList.class);
-    ProjectModel.Project project = new ProjectModel.Project("testing",
+    private GetProjectList getProjectList = Mockito.mock(GetProjectList.class);
+    private ProjectModel.Project project = new ProjectModel.Project("testing",
             "this is a test",
             "https://logo.jpg",
             new ProjectModel.Company("cat"),
             "20150404",
             "active");
-    List<ProjectModel.Project> projects = Arrays.asList(project);
-    ProjectModel.ProjectList projectsList = new ProjectModel.ProjectList(projects);
-
-    ProjectsListViewModel projectsListViewModel;
-
+    private List<ProjectModel.Project> projects = Arrays.asList(project);
+    private ProjectModel.ProjectList projectsList = new ProjectModel.ProjectList(projects);
+    private ProjectsListViewModel projectsListViewModel;
     private PublishSubject<ProjectModel.ProjectList> projectsListPublishSubject = PublishSubject.create();
+    private LiveData<DataWrapper<List<ProjectModel.MapProject>>> liveData;
 
     @Rule
     public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
@@ -76,18 +76,18 @@ public class ProjectListViewModelTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         projectsListViewModel = new ProjectsListViewModel(getProjectList);
+        liveData = projectsListViewModel.getLiveData();
         when(getProjectList.execute()).thenReturn(projectsListPublishSubject.take(1).singleOrError());
     }
 
     @Test
     public void testExecuteGetProjectsListSuccess() {
-        LiveData<List<ProjectModel.MapProject>> liveData = projectsListViewModel.getLiveData();
         ProjectModel.MapProject expectedResult = new ProjectModel.MapProject(
                 "testing", "this is a test", "https://logo.jpg",
                 "cat", "2015-04-04", "active");
         projectsListViewModel.getProjects();
         projectsListPublishSubject.onNext(projectsList);
-        Assert.assertEquals(expectedResult, liveData.getValue().get(0));
+        Assert.assertEquals(expectedResult, liveData.getValue().getData().get(0));
     }
 
     @After
@@ -97,11 +97,10 @@ public class ProjectListViewModelTest {
 
     @Test
     public void testExecuteGetProjectsListError() {
-        LiveData<List<ProjectModel.MapProject>> liveData = projectsListViewModel.getLiveData();
         Throwable throwable = new Throwable();
         projectsListViewModel.getProjects();
         projectsListPublishSubject.onError(throwable);
-        Assert.assertNull(liveData.getValue());
+        Assert.assertNull(liveData.getValue().getData());
     }
 }
 
