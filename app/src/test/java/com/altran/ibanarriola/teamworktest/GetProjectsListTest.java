@@ -25,7 +25,7 @@ public class GetProjectsListTest {
             "this is a test",
             "https://logo.jpg",
             new ProjectModel.Company("cat"),
-            134823483,
+            "134823483",
             "active");
     List<ProjectModel.Project> projects = Arrays.asList(project);
     ProjectModel.ProjectList projectsList = new ProjectModel.ProjectList(projects);

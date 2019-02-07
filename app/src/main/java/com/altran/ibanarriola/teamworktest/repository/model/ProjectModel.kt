@@ -2,15 +2,12 @@ package com.altran.ibanarriola.teamworktest.repository.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 
-
 object ProjectModel {
-    data class MapProject(val name: String?, val description: String?, val logo: String?, val company: String?, val startDate: String?, val status: String?): Parcelable {
+    data class MapProject(val name: String?, val description: String?, val logo: String?, val company: String?, val startDate: String?, val status: String?) : Parcelable {
         constructor(parcel: Parcel) : this(
                 parcel.readString(),
                 parcel.readString(),
@@ -51,5 +48,6 @@ object ProjectModel {
             return MapProject(name, description, logo, company?.name, parseDate.toString(), status)
         }
     }
+
     data class Company(val name: String?)
 }

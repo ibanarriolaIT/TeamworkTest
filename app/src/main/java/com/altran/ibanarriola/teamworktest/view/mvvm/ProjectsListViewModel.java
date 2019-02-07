@@ -1,6 +1,9 @@
-package com.altran.ibanarriola.teamworktest.view.presenter;
+package com.altran.ibanarriola.teamworktest.view.mvvm;
 
-import com.altran.ibanarriola.teamworktest.common.BasePresenter;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
+
 import com.altran.ibanarriola.teamworktest.repository.model.ProjectModel;
 import com.altran.ibanarriola.teamworktest.usecase.GetProjectList;
 
@@ -9,16 +12,21 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ProjectsListPresenter extends BasePresenter{
+
+public class ProjectsListViewModel extends ViewModel {
 
     GetProjectList getProjectList;
+    MutableLiveData<List<ProjectModel.MapProject>> liveData = new MutableLiveData<>();
 
-    public ProjectsListPresenter(GetProjectList getProjectList){
+    public ProjectsListViewModel(GetProjectList getProjectList){
         this.getProjectList = getProjectList;
     }
 
+    public LiveData<List<ProjectModel.MapProject>> getLiveData(){
+        return liveData;
+    }
+
     public void getProjects(){
-        ((View) getView()).onLoading();
         getProjectList.execute()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
@@ -26,13 +34,7 @@ public class ProjectsListPresenter extends BasePresenter{
                 .toObservable().flatMapIterable(projects -> projects)
                 .map(project -> project.convertToMapProject()).toList()
         .subscribe(projectsList ->
-            ((View) getView()).onProjectsDataReceived(projectsList),
-                throwable -> ((View) getView()).onErrorReceivingProjects());
+            liveData.setValue(projectsList));
     }
 
-    public interface View {
-        void onLoading();
-        void onProjectsDataReceived(List<ProjectModel.MapProject> projects);
-        void onErrorReceivingProjects();
-    }
 }

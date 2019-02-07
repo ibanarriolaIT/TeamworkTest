@@ -61,11 +61,18 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     kapt 'com.github.bumptech.glide:compiler:4.8.0'
 
+    //LifeCycle
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+
     //Unit testing libraries
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.23.0'
+    testImplementation "org.mockito:mockito-all:1.10.19"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    testImplementation 'androidx.arch.core:core-testing:2.0.0'
+
 }
 repositories {
     mavenCentral()

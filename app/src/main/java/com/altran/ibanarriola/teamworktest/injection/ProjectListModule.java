@@ -3,8 +3,7 @@ package com.altran.ibanarriola.teamworktest.injection;
 import com.altran.ibanarriola.teamworktest.repository.ProjectRepository;
 import com.altran.ibanarriola.teamworktest.repository.datasource.ApiDataSource;
 import com.altran.ibanarriola.teamworktest.usecase.GetProjectList;
-import com.altran.ibanarriola.teamworktest.view.activity.ProjectsListActivity;
-import com.altran.ibanarriola.teamworktest.view.presenter.ProjectsListPresenter;
+import com.altran.ibanarriola.teamworktest.view.mvvm.ProjectsListViewModelFactory;
 
 import dagger.Module;
 import dagger.Provides;
@@ -22,13 +21,8 @@ public class ProjectListModule {
         return new GetProjectList(projectRepository);
     }
 
-    @Provides
-    ProjectsListPresenter.View provideProjectsListView(ProjectsListActivity projectsListActivity){
-        return projectsListActivity;
-    }
-
     @Provides @PerActivity
-    ProjectsListPresenter providesProjectsListPresenter(GetProjectList getProjectList){
-        return new ProjectsListPresenter(getProjectList);
+    ProjectsListViewModelFactory providesProjectsListViewModelFactory(GetProjectList getProjectList){
+        return new ProjectsListViewModelFactory(getProjectList);
     }
 }
